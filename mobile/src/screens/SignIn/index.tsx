@@ -42,6 +42,10 @@ export const SignIn: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(signInFormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const { signIn } = useAuth();
@@ -85,7 +89,6 @@ export const SignIn: React.FC = () => {
               />
             )}
             name="email"
-            defaultValue=""
           />
 
           <Controller
@@ -101,7 +104,6 @@ export const SignIn: React.FC = () => {
               />
             )}
             name="password"
-            defaultValue=""
           />
 
           <Button

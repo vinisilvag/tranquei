@@ -6,14 +6,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider } from 'styled-components';
 
 import { useFonts } from 'expo-font';
-import { Archivo_600SemiBold } from '@expo-google-fonts/archivo';
 import {
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-} from '@expo-google-fonts/poppins';
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from '@expo-google-fonts/inter';
 
 import AppLoading from 'expo-app-loading';
+import { View } from 'react-native';
 import { AppProvider } from './src/contexts';
 
 import { theme } from './src/globals/styles/theme';
@@ -24,10 +25,10 @@ export default function App() {
   const { colors } = theme;
 
   const [fontsLoaded] = useFonts({
-    Archivo_600SemiBold,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
   });
 
   if (!fontsLoaded) {
@@ -37,9 +38,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <StatusBar backgroundColor={colors.background} style="dark" />
+        <StatusBar backgroundColor={colors.background} style="light" />
         <AppProvider>
-          <Routes />
+          <View style={{ flex: 1, backgroundColor: colors.background }}>
+            <Routes />
+          </View>
         </AppProvider>
       </ThemeProvider>
     </NavigationContainer>

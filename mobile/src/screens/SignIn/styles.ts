@@ -15,7 +15,7 @@ export const Container = styled.ScrollView.attrs(() => ({
 `;
 
 export const Title = styled.Text`
-  font-family: ${props => props.theme.fonts.archivo_600};
+  font-family: ${props => props.theme.fonts.inter_600};
   font-size: 28px;
   color: ${props => props.theme.colors.title};
   margin-bottom: 40px;
@@ -29,12 +29,12 @@ export const SignUpButton = styled.TouchableOpacity.attrs(() => ({
 `;
 
 export const SignUpText = styled.Text`
-  font-family: ${props => props.theme.fonts.poppins_400};
+  font-family: ${props => props.theme.fonts.inter_400};
   font-size: 14px;
   color: ${props => props.theme.colors.text};
 `;
 
 export const SignUpTextDetail = styled.Text`
-  font-family: ${props => props.theme.fonts.poppins_500};
+  font-family: ${props => props.theme.fonts.inter_500};
   color: ${props => props.theme.colors.primary};
 `;

@@ -41,7 +41,7 @@ export const Header: React.FC = () => {
       </ProfileButton>
 
       <IconButton>
-        <Feather name="settings" size={24} color={colors.primary} />
+        <Feather name="settings" size={24} color={colors.title} />
       </IconButton>
     </Container>
   );

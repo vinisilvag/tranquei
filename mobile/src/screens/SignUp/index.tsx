@@ -51,6 +51,12 @@ export const SignUp: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(signUpFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 
   const handleNavigateToSignInScreen = () => {
@@ -98,7 +104,6 @@ export const SignUp: React.FC = () => {
               />
             )}
             name="name"
-            defaultValue=""
           />
 
           <Controller
@@ -115,7 +120,6 @@ export const SignUp: React.FC = () => {
               />
             )}
             name="email"
-            defaultValue=""
           />
 
           <Controller
@@ -131,7 +135,6 @@ export const SignUp: React.FC = () => {
               />
             )}
             name="password"
-            defaultValue=""
           />
 
           <Controller
@@ -147,7 +150,6 @@ export const SignUp: React.FC = () => {
               />
             )}
             name="confirmPassword"
-            defaultValue=""
           />
 
           <Button

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'react-native';
 
 import { Feather } from '@expo/vector-icons';
 
@@ -8,8 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { Container, Footer, SquareButton } from './styles';
-
-import { useAuth } from '../../hooks/useAuth';
 
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
@@ -32,7 +29,6 @@ export const Home: React.FC = () => {
   } = useForm({
     resolver: yupResolver(sendLockFormSchema),
   });
-  const { signOut } = useAuth();
   const { colors } = theme;
 
   const handleSubmitLock: SubmitHandler<SendLockFormData> = async data => {
@@ -42,14 +38,14 @@ export const Home: React.FC = () => {
   return (
     <>
       <Header />
-      <Container>
-        <Button title="Sign Out" onPress={signOut} />
-      </Container>
+      <Container />
       <Footer>
         <Controller
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
+              placeholder="Description"
+              placeholderTextColor={colors.text}
               error={errors.description}
               onChangeText={onChange}
               value={value}
@@ -62,7 +58,7 @@ export const Home: React.FC = () => {
           onPress={handleSubmit(handleSubmitLock) as any}
           enabled={!isSubmitting}
         >
-          <Feather name="lock" size={22} color={colors.white} />
+          <Feather name="lock" size={20} color={colors.white} />
         </SquareButton>
       </Footer>
     </>

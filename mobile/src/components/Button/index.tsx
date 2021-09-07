@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <ButtonContainer enabled={!isLoading} {...rest}>
       {isLoading ? (
-        <ActivityIndicator size="small" color={colors.background} />
+        <ActivityIndicator size="small" color={colors.white} />
       ) : (
         <ButtonText>{children}</ButtonText>
       )}

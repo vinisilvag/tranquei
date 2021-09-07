@@ -1,19 +1,17 @@
 export const theme = {
   colors: {
     white: '#FFFFFF',
-    background: '#FFFFFF',
-    inputBorder: '#E6E6F0',
-    inputBg: '#FAFAFC',
-    text: '#9C98A6',
-    title: '#32264D',
-    secondary: '#04D361',
-    primary: '#8257E5',
+    background: '#0B0E11',
+    inputBg: '#242C37',
+    text: '#5D7290',
+    title: '#DEE3EA',
+    primary: '#1793a6',
     red: '#D13F44',
   },
   fonts: {
-    archivo_600: 'Archivo_600SemiBold',
-    poppins_400: 'Poppins_400Regular',
-    poppins_500: 'Poppins_500Medium',
-    poppins_600: 'Poppins_600SemiBold',
+    inter_400: 'Inter_400Regular',
+    inter_500: 'Inter_500Medium',
+    inter_600: 'Inter_600SemiBold',
+    inter_700: 'Inter_700Bold',
   },
 };
