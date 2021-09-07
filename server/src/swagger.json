@@ -1,0 +1,410 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API do app Tranquei?",
+    "description": "Essa API tem o objetivo de prover os endpoints que serão consumidos pelo app em React Native",
+    "termsOfService": "http://localhost:3333/terms",
+    "contact": {
+      "email": "vinicius.svgomes@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333/api/v1",
+      "description": "Endereço de teste para a API"
+    },
+    {
+      "url": "https://tranquei-server.herokuapp.com/api/v1",
+      "description": "Endereço de produção da API"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "summary": "Cadastro de usuário",
+        "description": "Essa rota é responsável por cadastrar um novo usuário na aplicação.",
+        "tags": ["Users"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Email already registered"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "patch": {
+        "summary": "Ativar/desativar um usuário",
+        "description": "Essa rota é responsável por ativar ou desativar um usuário na aplicação.",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID do usuário para alterar seu status na aplicação"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/session": {
+      "post": {
+        "summary": "Autenticação de usuário",
+        "description": "Essa rota é responsável por autenticar um usuário na aplicação.",
+        "tags": ["Session"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Auth"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "404": {
+            "description": "Email not registered"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "summary": "Perfil do usuário",
+        "description": "Essa rota é responsável por retornar o perfil do usuário logado na aplicação. Usuário deve estar autenticado para consumir essa rota.",
+        "tags": ["Profile"],
+        "security": [],
+        "responses": {
+          "401": {
+            "description": "Only authenticated users can list their profile"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza as informações do usuário logado",
+        "description": "Essa rota é responsável por atualizar as informações do perfil do usuário. Usuário deve estar autenticado para consumir essa rota.",
+        "tags": ["Profile"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Profile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Only authenticated users can update their profiles, Old password is wrong"
+          },
+          "409": {
+            "description": "Email already registered"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locks": {
+      "get": {
+        "summary": "Lista de registros de fechadura do usuário logado",
+        "description": "Essa rota é responsável por listar todos os registros de fechadura cadastrados na aplicação. Usuário deve estar autenticado para consumir essa rota.",
+        "tags": ["Locks"],
+        "security": [],
+        "responses": {
+          "401": {
+            "description": "Only authenticated users can list locks"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/LockResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Cria um registro de fechadura do usuário logado",
+        "description": "Essa rota é responsável por criar um registro de fechadura na aplicação. Usuário deve estar autenticado para consumir essa rota.",
+        "tags": ["Locks"],
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LockResponse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "403": {
+            "description": "Only authenticated users can list locks"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/LockResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locks/{id}": {
+      "delete": {
+        "summary": "Deleta um registro de fechadura do usuário logado",
+        "description": "Essa rota é responsável por deletar um registro de fechadura na aplicação. Usuário deve estar autenticado para consumir essa rota.",
+        "tags": ["Locks"],
+        "security": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID do regisrto da fechadura"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Invalid lock id"
+          },
+          "403": {
+            "description": "You can only delete your own locks"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/LockResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "avatarUrl": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "role": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "oldPassword": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Auth": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        }
+      },
+      "LockResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
