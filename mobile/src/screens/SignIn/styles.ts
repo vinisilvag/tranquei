@@ -1,14 +1,16 @@
 import styled from 'styled-components/native';
+import Constants from 'expo-constants';
 
 export const Container = styled.ScrollView.attrs(() => ({
   contentContainerStyle: {
-    paddingTop: 114,
+    paddingVertical: 24,
+    paddingTop: 48 + Constants.statusBarHeight,
   },
   showsVerticalScrollIndicator: false,
 }))`
   flex: 1;
   width: 100%;
-  padding: 0 32px;
+  padding: 0 24px;
   background-color: ${props => props.theme.colors.background};
 `;
 

@@ -25,6 +25,7 @@ type AuthState = {
 
 type AuthContextType = {
   user: User;
+  isLoading: boolean;
   isAuthenticated: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): Promise<void>;
@@ -36,7 +37,30 @@ export const AuthContext = createContext<AuthContextType>(
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>({} as AuthState);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const isAuthenticated = !!data?.token;
+
+  useEffect(() => {
+    async function loadStoragedData() {
+      const [token, user] = await AsyncStorage.multiGet([
+        '@tranquei:token',
+        '@tranquei:user',
+      ]);
+
+      if (token[1] && user[1]) {
+        api.defaults.headers.Authorization = `Bearer ${token[1]}`;
+
+        setData({
+          token: token[1],
+          user: JSON.parse(user[1]),
+        });
+      }
+
+      setIsLoading(false);
+    }
+
+    loadStoragedData();
+  }, []);
 
   const signIn = async (credentials: SignInCredentials): Promise<void> => {
     const response = await api.post('/session', credentials);
@@ -62,7 +86,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, isAuthenticated, signIn, signOut }}
+      value={{ user: data.user, isLoading, isAuthenticated, signIn, signOut }}
     >
       {children}
     </AuthContext.Provider>
