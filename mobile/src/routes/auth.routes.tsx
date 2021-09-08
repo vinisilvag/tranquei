@@ -5,7 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SignIn } from '../screens/SignIn';
 import { SignUp } from '../screens/SignUp';
 
-const { Navigator, Screen } = createNativeStackNavigator();
+type AuthStackParamList = {
+  SignIn: undefined;
+  SignUp: undefined;
+};
+
+const { Navigator, Screen } = createNativeStackNavigator<AuthStackParamList>();
 
 export const AuthRoutes: React.FC = () => (
   <Navigator

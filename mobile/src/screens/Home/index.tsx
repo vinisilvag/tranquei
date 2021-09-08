@@ -1,4 +1,10 @@
 import React from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Keyboard,
+  ToastAndroid,
+} from 'react-native';
 
 import { Feather } from '@expo/vector-icons';
 
@@ -12,6 +18,8 @@ import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
 
 import { theme } from '../../globals/styles/theme';
+import { LockItem } from '../../components/LockItem';
+import { useLock } from '../../hooks/useLock';
 
 type SendLockFormData = {
   description: string;
@@ -22,23 +30,47 @@ const sendLockFormSchema = yup.object({
 });
 
 export const Home: React.FC = () => {
+  const { locks, createLock, onRefresh, isRefreshing } = useLock();
+
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(sendLockFormSchema),
   });
+
   const { colors } = theme;
 
-  const handleSubmitLock: SubmitHandler<SendLockFormData> = async data => {
-    console.log(data);
+  const handleSubmitLock: SubmitHandler<SendLockFormData> = async ({
+    description,
+  }) => {
+    try {
+      await createLock(description);
+
+      reset({ description: '' });
+
+      Keyboard.dismiss();
+
+      ToastAndroid.show('Lock recorded successfully', ToastAndroid.SHORT);
+    } catch (err) {
+      ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+    }
   };
 
   return (
     <>
       <Header />
-      <Container />
+      <Container>
+        <FlatList
+          data={locks}
+          keyExtractor={item => item.id}
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          renderItem={({ item: lockItem }) => <LockItem lock={lockItem} />}
+        />
+      </Container>
       <Footer>
         <Controller
           control={control}
@@ -58,7 +90,11 @@ export const Home: React.FC = () => {
           onPress={handleSubmit(handleSubmitLock) as any}
           enabled={!isSubmitting}
         >
-          <Feather name="lock" size={20} color={colors.white} />
+          {isSubmitting ? (
+            <ActivityIndicator size="small" color={colors.white} />
+          ) : (
+            <Feather name="lock" size={20} color={colors.white} />
+          )}
         </SquareButton>
       </Footer>
     </>

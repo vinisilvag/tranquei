@@ -5,7 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home } from '../screens/Home';
 import { Profile } from '../screens/Profile';
 
-const { Navigator, Screen } = createNativeStackNavigator();
+type AppStackParamList = {
+  Home: undefined;
+  Profile: undefined;
+};
+
+const { Navigator, Screen } = createNativeStackNavigator<AppStackParamList>();
 
 export const AppRoutes: React.FC = () => (
   <Navigator

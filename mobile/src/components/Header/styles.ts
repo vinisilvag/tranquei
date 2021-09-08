@@ -5,7 +5,7 @@ export const Container = styled.View`
   width: 100%;
   padding: 0 24px;
   padding-bottom: 10px;
-  padding-top: 30px;
+  padding-top: 34px;
   background-color: ${props => props.theme.colors.background};
   flex-direction: row;
   align-items: center;
@@ -18,31 +18,32 @@ export const ProfileButton = styled.TouchableOpacity.attrs(() => ({
   activeOpacity: 0.6,
 }))`
   flex-direction: row;
+  align-items: center;
 `;
 
 export const Avatar = styled.Image`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
+  width: 33px;
+  height: 33px;
+  border-radius: 17px;
 `;
 
 export const Column = styled.View`
   flex-direction: column;
   justify-content: center;
-  margin-left: 12px;
+  margin-left: 10px;
 `;
 
 export const Title = styled.Text`
   font-family: ${props => props.theme.fonts.inter_600};
   color: ${props => props.theme.colors.title};
-  font-size: 16px;
+  font-size: 14px;
   margin-top: 0px;
 `;
 
 export const Subtitle = styled.Text`
   font-family: ${props => props.theme.fonts.inter_400};
   color: ${props => props.theme.colors.text};
-  font-size: 13px;
+  font-size: 12px;
 `;
 
 export const IconButton = styled(BorderlessButton)``;

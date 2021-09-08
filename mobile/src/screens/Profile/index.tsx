@@ -4,7 +4,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
-  ToastAndroid,
+  Alert,
 } from 'react-native';
 
 import { Feather } from '@expo/vector-icons';
@@ -66,6 +66,20 @@ export const Profile: React.FC = () => {
     navigation.goBack();
   };
 
+  const handleSignOut = async (): Promise<void> => {
+    Alert.alert('Are you sure?', 'Are you sure you want to sign out?', [
+      {
+        text: 'Yes',
+        onPress: () => {
+          signOut();
+        },
+      },
+      {
+        text: 'No',
+      },
+    ]);
+  };
+
   const handleUpdateProfile: SubmitHandler<UpdateProfileFormData> =
     async data => {
       console.log(data);
@@ -78,8 +92,8 @@ export const Profile: React.FC = () => {
           <Feather name="arrow-left" size={24} color={colors.title} />
         </BorderlessButton>
 
-        <BorderlessButton onPress={signOut}>
-          <Feather name="log-out" size={24} color={colors.title} />
+        <BorderlessButton onPress={handleSignOut}>
+          <Feather name="log-out" size={22} color={colors.title} />
         </BorderlessButton>
       </Header>
 
