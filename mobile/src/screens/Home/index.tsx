@@ -12,7 +12,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { Container, Footer, SquareButton } from './styles';
+import { Container, Footer, SquareButton, Loading } from './styles';
 
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
@@ -30,7 +30,7 @@ const sendLockFormSchema = yup.object({
 });
 
 export const Home: React.FC = () => {
-  const { locks, createLock, onRefresh, isRefreshing } = useLock();
+  const { locks, isLoading, createLock, onRefresh, isRefreshing } = useLock();
 
   const {
     control,
@@ -54,8 +54,11 @@ export const Home: React.FC = () => {
       Keyboard.dismiss();
 
       ToastAndroid.show('Lock recorded successfully', ToastAndroid.SHORT);
-    } catch (err) {
-      ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+    } catch (err: any) {
+      console.log(err);
+
+      const errorMessage = err.response.data.message || 'Unexpected error';
+      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     }
   };
 
@@ -63,13 +66,17 @@ export const Home: React.FC = () => {
     <>
       <Header />
       <Container>
-        <FlatList
-          data={locks}
-          keyExtractor={item => item.id}
-          refreshing={isRefreshing}
-          onRefresh={onRefresh}
-          renderItem={({ item: lockItem }) => <LockItem lock={lockItem} />}
-        />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <FlatList
+            data={locks}
+            keyExtractor={item => item.id}
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            renderItem={({ item: lockItem }) => <LockItem lock={lockItem} />}
+          />
+        )}
       </Container>
       <Footer>
         <Controller

@@ -36,11 +36,7 @@ const signUpFormSchema = yup.object({
   name: yup.string().required(),
   email: yup.string().required().email(),
   password: yup.string().required(),
-  confirmPassword: yup
-    .string()
-    .test('passwords-match', 'passwords must match', function (value) {
-      return this.parent.password === value;
-    }),
+  confirmPassword: yup.string().required(),
 });
 
 export const SignUp: React.FC = () => {
@@ -74,8 +70,11 @@ export const SignUp: React.FC = () => {
       ToastAndroid.show('Account created successfully', ToastAndroid.LONG);
 
       navigation.goBack();
-    } catch (err) {
-      ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+    } catch (err: any) {
+      console.log(err);
+
+      const errorMessage = err.response.data.message || 'Unexpected error';
+      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     }
   };
 

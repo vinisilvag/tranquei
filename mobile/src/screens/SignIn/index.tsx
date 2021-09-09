@@ -57,8 +57,11 @@ export const SignIn: React.FC = () => {
   const handleSignIn: SubmitHandler<SignInFormData> = async data => {
     try {
       await signIn(data);
-    } catch (err) {
-      ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+    } catch (err: any) {
+      console.log(err);
+
+      const errorMessage = err.response.data.message || 'Unexpected error';
+      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     }
   };
 

@@ -29,11 +29,7 @@ export const Header: React.FC = () => {
   return (
     <Container>
       <ProfileButton onPress={handleNavigateToProfileScreen}>
-        <Avatar
-          source={{
-            uri: 'https://avatars.githubusercontent.com/u/58532241?v=4',
-          }}
-        />
+        <Avatar width={33} height={33} uri={user.avatarUrl} />
         <Column>
           <Subtitle>Hello,</Subtitle>
           <Title>{user.name}</Title>
@@ -41,7 +37,7 @@ export const Header: React.FC = () => {
       </ProfileButton>
 
       <IconButton>
-        <Feather name="settings" size={22} color={colors.title} />
+        <Feather name="info" size={24} color={colors.title} />
       </IconButton>
     </Container>
   );

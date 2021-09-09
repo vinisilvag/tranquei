@@ -22,6 +22,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
+
 import { theme } from '../../globals/styles/theme';
 
 type UpdateProfileFormData = {
@@ -48,6 +49,7 @@ export const Profile: React.FC = () => {
 
   const {
     control,
+    getValues,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
@@ -59,6 +61,10 @@ export const Profile: React.FC = () => {
       confirmPassword: '',
     },
   });
+
+  const profilePhoto = `https://avatars.dicebear.com/api/jdenticon/${getValues(
+    'name',
+  )}.svg`;
 
   const { colors } = theme;
 
@@ -107,11 +113,7 @@ export const Profile: React.FC = () => {
           contentContainerStyle={{ flex: 1 }}
         >
           <Container>
-            <Avatar
-              source={{
-                uri: 'https://avatars.githubusercontent.com/u/58532241?v=4',
-              }}
-            />
+            <Avatar width={128} height={128} uri={profilePhoto} />
             <Controller
               control={control}
               render={({ field: { onChange, value } }) => (

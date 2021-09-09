@@ -12,6 +12,7 @@ type Lock = {
 
 type LockContextType = {
   locks: Lock[];
+  isLoading: boolean;
   isRefreshing: boolean;
   onRefresh(): Promise<void>;
   createLock(description: string): Promise<void>;
@@ -24,6 +25,7 @@ export const LockContext = createContext<LockContextType>(
 
 export const LockProvider: React.FC = ({ children }) => {
   const [locks, setLocks] = useState<Lock[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const { isAuthenticated } = useAuth();
@@ -34,8 +36,13 @@ export const LockProvider: React.FC = ({ children }) => {
         const response = await api.get('/locks');
 
         setLocks(response.data);
-      } catch (err) {
-        ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+      } catch (err: any) {
+        console.log(err);
+
+        const errorMessage = err.response.data.message || 'Unexpected error';
+        ToastAndroid.show(errorMessage, ToastAndroid.LONG);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -51,8 +58,11 @@ export const LockProvider: React.FC = ({ children }) => {
       const response = await api.get('/locks');
 
       setLocks(response.data);
-    } catch (err) {
-      ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+    } catch (err: any) {
+      console.log(err);
+
+      const errorMessage = err.response.data.message || 'Unexpected error';
+      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     } finally {
       setIsRefreshing(false);
     }
@@ -76,7 +86,14 @@ export const LockProvider: React.FC = ({ children }) => {
 
   return (
     <LockContext.Provider
-      value={{ locks, createLock, deleteLock, onRefresh, isRefreshing }}
+      value={{
+        locks,
+        createLock,
+        deleteLock,
+        isLoading,
+        onRefresh,
+        isRefreshing,
+      }}
     >
       {children}
     </LockContext.Provider>

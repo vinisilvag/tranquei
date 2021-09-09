@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
+import { baseProps } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
 
 export const Container = styled.View`
   flex: 1;
@@ -25,4 +26,11 @@ export const SquareButton = styled(RectButton)`
   justify-content: center;
 
   margin-left: 12px;
+`;
+
+export const Loading = styled.ActivityIndicator.attrs(props => ({
+  size: 'large',
+  color: props.theme.colors.primary,
+}))`
+  margin-top: 24px;
 `;

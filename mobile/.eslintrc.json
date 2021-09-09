@@ -43,6 +43,7 @@
     "object-curly-newline": "off",
     "arrow-parens": "off",
     "no-shadow": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "no-console": "off"
   }
 }

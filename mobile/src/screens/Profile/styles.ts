@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import Constants from 'expo-constants';
+import { SvgUri } from 'react-native-svg';
 
 export const Container = styled.ScrollView.attrs(() => ({
   contentContainerStyle: {
@@ -25,10 +25,7 @@ export const Header = styled.View`
   border-bottom-color: ${props => props.theme.colors.inputBg};
 `;
 
-export const Avatar = styled.Image`
-  width: 128px;
-  height: 128px;
-  border-radius: 64px;
+export const Avatar = styled(SvgUri)`
   align-self: center;
   margin-bottom: 32px;
 `;

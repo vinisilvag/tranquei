@@ -1,5 +1,6 @@
-import { BorderlessButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
+import { BorderlessButton } from 'react-native-gesture-handler';
+import { SvgUri } from 'react-native-svg';
 
 export const Container = styled.View`
   width: 100%;
@@ -21,9 +22,7 @@ export const ProfileButton = styled.TouchableOpacity.attrs(() => ({
   align-items: center;
 `;
 
-export const Avatar = styled.Image`
-  width: 33px;
-  height: 33px;
+export const Avatar = styled(SvgUri)`
   border-radius: 17px;
 `;
 
