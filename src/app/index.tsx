@@ -1,7 +1,8 @@
 import { View, Text, FlatList, ActivityIndicator } from "react-native";
 
 import { Header } from "@/components/header";
-import { Fab } from "@/components/fab";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
 import { ReminderItem } from "@/components/reminder-item";
 
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -16,11 +17,26 @@ import * as Location from "expo-location";
 
 import type { Reminder } from "@/types/reminder";
 
+import { useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+type CreateReminderData = {
+	message?: string;
+};
+
+const createReminderSchema = z.object({
+	message: z.string(),
+});
+
 export default function Home() {
 	const database = useSQLiteContext();
 	const db = drizzle(database, { schema: reminderSchema });
 
-	const { data: reminders, isLoading } = useQuery<Reminder[]>({
+	const { data: reminders, isLoading: isLoadingReminders } = useQuery<
+		Reminder[]
+	>({
 		queryKey: ["reminders"],
 		queryFn: async () => {
 			return await db.query.reminder.findMany({
@@ -49,6 +65,25 @@ export default function Home() {
 		},
 	});
 
+	const {
+		control,
+		handleSubmit,
+		reset,
+		formState: { errors, isLoading: isLoadingCreateReminder },
+	} = useForm<CreateReminderData>({
+		resolver: zodResolver(createReminderSchema),
+		defaultValues: {
+			message: "",
+		},
+	});
+
+	const handleCreateReminder: SubmitHandler<CreateReminderData> = async (
+		data,
+	) => {
+		mutation.mutate({ message: data.message ?? "" });
+		reset();
+	};
+
 	return (
 		<>
 			<View className="flex-1">
@@ -57,7 +92,7 @@ export default function Home() {
 					subtitle="Todos as entradas realizadas até o momento."
 				/>
 
-				{isLoading ? (
+				{isLoadingReminders ? (
 					<View className="flex-1 py-5">
 						<ActivityIndicator size="small" color={colors.primary} />
 					</View>
@@ -80,15 +115,20 @@ export default function Home() {
 						)}
 					/>
 				)}
-			</View>
 
-			<Fab
-				onPress={() => {
-					mutation.mutate({
-						message: "testeee",
-					});
-				}}
-			/>
+				<View className="bg-gray-900 border-t border-gray-500 p-6 flex flex-row gap-4">
+					<Input
+						control={control}
+						inputName="message"
+						placeholder="Mensagem"
+						isSending={isLoadingCreateReminder}
+					/>
+					<Button
+						isLoading={isLoadingCreateReminder}
+						onPress={handleSubmit(handleCreateReminder)}
+					/>
+				</View>
+			</View>
 		</>
 	);
 }

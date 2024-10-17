@@ -67,7 +67,8 @@ export function ReminderItem({ id, message, timestamp }: Reminder) {
 							</Text>
 						) : (
 							<Text className="font-open-sans-medium italic text-white">
-								Entrada sem mensagem informada.
+								Entrada sem mensagem (provavelmente quer dizer que estou
+								trancando a porta ao sair de casa).
 							</Text>
 						)}
 						<Text className="font-open-sans-regular text-gray-400 mt-2">

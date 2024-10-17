@@ -10,6 +10,7 @@ import {
 	useFonts,
 } from "@expo-google-fonts/open-sans";
 import * as SplashScreen from "expo-splash-screen";
+import * as SystemUI from "expo-system-ui";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -28,6 +29,7 @@ import { useEffect } from "react";
 
 import { colors } from "@/styles/colors";
 
+SystemUI.setBackgroundColorAsync("#0E0F11");
 SplashScreen.preventAutoHideAsync();
 
 const DATABASE_NAME = "database.db";
