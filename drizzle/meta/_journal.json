@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1729089863439,
+      "tag": "0000_blushing_roland_deschain",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1729138129986,
+      "tag": "0001_curvy_serpent_society",
+      "breakpoints": true
+    }
+  ]
+}

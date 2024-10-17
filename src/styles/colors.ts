@@ -1,6 +1,7 @@
 export const colors = {
 	white: "#FFFFFF",
 	gray: {
+		400: "#7C7C8A",
 		500: "#202224", // stroke and horizontal line
 		600: "#16181A", // contrast with background
 		700: "#0E0F11", // background

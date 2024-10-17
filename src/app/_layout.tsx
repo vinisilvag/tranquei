@@ -1,3 +1,6 @@
+import "@/styles/globals.css";
+import "@/libs/dayjs";
+
 import {
 	OpenSans_300Light,
 	OpenSans_400Regular,
@@ -8,20 +11,33 @@ import {
 } from "@expo-google-fonts/open-sans";
 import * as SplashScreen from "expo-splash-screen";
 
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/libs/query-client";
+
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { openDatabaseSync, SQLiteProvider } from "expo-sqlite/next";
+import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
+import migrations from "../../drizzle/migrations";
+
 import { Stack } from "expo-router/stack";
 import { StatusBar } from "expo-status-bar";
-import Constants from "expo-constants";
 
 import { useEffect } from "react";
 
 import { colors } from "@/styles/colors";
 
-import "@/styles/globals.css";
-
 SplashScreen.preventAutoHideAsync();
 
+const DATABASE_NAME = "database.db";
+const expoDb = openDatabaseSync(DATABASE_NAME);
+const db = drizzle(expoDb);
+
 export default function Layout() {
-	const [loaded, error] = useFonts({
+	const { success: dbSuccess, error: dbError } = useMigrations(db, migrations);
+
+	const [loaded, fontError] = useFonts({
 		OpenSans_300Light,
 		OpenSans_400Regular,
 		OpenSans_500Medium,
@@ -30,29 +46,30 @@ export default function Layout() {
 	});
 
 	useEffect(() => {
-		if (loaded || error) {
+		if ((loaded || fontError) && (dbError || dbSuccess)) {
 			SplashScreen.hideAsync();
 		}
-	}, [loaded, error]);
+	}, [loaded, fontError, dbError, dbSuccess]);
 
-	if (!loaded && !error) {
+	if ((!loaded && !fontError) || (!dbSuccess && !dbError)) {
 		return null;
 	}
 
 	return (
-		<>
+		<GestureHandlerRootView style={{ flex: 1 }}>
 			<StatusBar style="light" />
-			<Stack
-				screenOptions={{
-					headerShown: false,
-					contentStyle: {
-						backgroundColor: colors.gray[700],
-						paddingHorizontal: 24,
-						paddingTop: 32 + Constants.statusBarHeight,
-						paddingBottom: 32,
-					},
-				}}
-			/>
-		</>
+			<QueryClientProvider client={queryClient}>
+				<SQLiteProvider databaseName={DATABASE_NAME}>
+					<Stack
+						screenOptions={{
+							headerShown: false,
+							contentStyle: {
+								backgroundColor: colors.gray[700],
+							},
+						}}
+					/>
+				</SQLiteProvider>
+			</QueryClientProvider>
+		</GestureHandlerRootView>
 	);
 }
