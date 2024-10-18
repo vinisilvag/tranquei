@@ -6,7 +6,7 @@
 		"version": "1.0.0",
 		"githubUrl": "https://github.com/vinisilvag/tranquei",
 		"backgroundColor": "#0E0F11",
-		"primaryCoor": "#29E0A9",
+		"primaryColor": "#29E0A9",
 		"androidNavigationBar": {
 			"barStyle": "light-content",
 			"backgroundColor": "#0E0F11"
@@ -31,7 +31,8 @@
 			"permissions": [
 				"android.permission.ACCESS_COARSE_LOCATION",
 				"android.permission.ACCESS_FINE_LOCATION"
-			]
+			],
+			"package": "com.vinisilvag.tranquei"
 		},
 		"web": {
 			"bundler": "metro",
