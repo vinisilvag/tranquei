@@ -9,7 +9,7 @@
 		"primaryColor": "#29E0A9",
 		"androidNavigationBar": {
 			"barStyle": "light-content",
-			"backgroundColor": "#0E0F11"
+			"backgroundColor": "#040507"
 		},
 		"orientation": "portrait",
 		"icon": "./assets/images/icon.png",
