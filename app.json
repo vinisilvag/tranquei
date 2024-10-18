@@ -1,8 +1,16 @@
 {
 	"expo": {
-		"name": "tranquei",
+		"name": "Tranquei?",
 		"slug": "tranquei",
+		"description": "Escrever a descrição depois...",
 		"version": "1.0.0",
+		"githubUrl": "https://github.com/vinisilvag/tranquei",
+		"backgroundColor": "#0E0F11",
+		"primaryCoor": "#29E0A9",
+		"androidNavigationBar": {
+			"barStyle": "light-content",
+			"backgroundColor": "#0E0F11"
+		},
 		"orientation": "portrait",
 		"icon": "./assets/images/icon.png",
 		"scheme": "myapp",

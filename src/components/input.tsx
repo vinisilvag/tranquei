@@ -25,7 +25,7 @@ export function Input({ inputName, control, isSending, ...props }: InputProps) {
 				return (
 					<TextInput
 						placeholderTextColor={colors.gray[400]}
-						className="flex-1 h-14 p-4 bg-gray-800 border border-gray-500 rounded-xl text-white font-open-sans-regular"
+						className="flex-1 h-14 px-4 bg-gray-800 border border-gray-500 rounded-xl text-white font-open-sans-regular"
 						cursorColor={colors.secondary}
 						style={{ textAlignVertical: "top" }}
 						onBlur={onBlur}
