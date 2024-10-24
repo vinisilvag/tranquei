@@ -1,6 +1,9 @@
 import "@/styles/globals.css";
 import "@/libs/dayjs";
 
+import { View, Text } from "react-native";
+
+import { loadAsync } from "expo-font";
 import {
 	OpenSans_300Light,
 	OpenSans_400Regular,
@@ -37,7 +40,10 @@ const expoDb = openDatabaseSync(DATABASE_NAME);
 const db = drizzle(expoDb);
 
 export default function Layout() {
-	const { success: dbSuccess, error: dbError } = useMigrations(db, migrations);
+	const { success: migrationsSuccess, error: migrationsError } = useMigrations(
+		db,
+		migrations,
+	);
 
 	const [loaded, fontError] = useFonts({
 		OpenSans_300Light,
@@ -48,13 +54,35 @@ export default function Layout() {
 	});
 
 	useEffect(() => {
-		if ((loaded || fontError) && (dbError || dbSuccess)) {
+		if ((loaded || fontError) && (migrationsError || migrationsSuccess)) {
 			SplashScreen.hideAsync();
 		}
-	}, [loaded, fontError, dbError, dbSuccess]);
+	}, [loaded, fontError, migrationsError, migrationsSuccess]);
 
-	if ((!loaded && !fontError) || (!dbSuccess && !dbError)) {
-		return null;
+	if (loaded && fontError) {
+		return (
+			<View className="flex-1 px-6 items-center justify-center flex-col gap-4">
+				<Text className="font-open-sans-bold text-xl text-white">
+					Error when loading Google Fonts!
+				</Text>
+				<Text className="font-open-sans-regular text-gray-400">
+					{fontError?.message}
+				</Text>
+			</View>
+		);
+	}
+
+	if (!migrationsSuccess && migrationsError) {
+		return (
+			<View className="flex-1 px-6 items-center justify-center flex-col gap-4">
+				<Text className="font-open-sans-bold text-xl text-white">
+					Error when loading DB migrations!
+				</Text>
+				<Text className="font-open-sans-regular text-gray-400">
+					{migrationsError?.message}
+				</Text>
+			</View>
+		);
 	}
 
 	return (
